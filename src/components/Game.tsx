@@ -18,7 +18,7 @@ const Game = (props: Props) => {
                     width: "100%",
                     height: "100%",
                 }}>
-                <OrbitControls />
+                <CameraControls />
                 <ambientLight intensity={0.5} />
                 <pointLight position={[1, 1, 1]} />
                 <CubeArray />

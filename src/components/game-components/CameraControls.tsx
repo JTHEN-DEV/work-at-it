@@ -17,39 +17,53 @@ const CameraControls = () => {
     );
     const orbitRef = useRef<any>();
     const speed = 0.05; // Smoothness factor
+    const scalarMultiplier = 0.5; // Scalar multiplier for translational movement
+    const maxSpeed = 0.01; // Maximum speed of the camera
     const [isPanning, setIsPanning] = useState(false);
 
+    const [keys, setKeys] = useState<string[]>([]);
+    
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            camera.getWorldDirection(forward);
             switch (event.key) {
                 case "w":
-                    targetPosition.current.add(forward.multiplyScalar(0.5));
+                    setKeys((prev) => [...prev, "w"]);
                     break;
                 case "s":
-                    targetPosition.current.add(forward.multiplyScalar(-0.5));
+                    setKeys((prev) => [...prev, "s"]);
                     break;
                 case "a":
-                    targetPosition.current.add(
-                        new Vector3(forward.z, 0, -forward.x).multiplyScalar(
-                            0.5
-                        )
-                    );
+                    setKeys((prev) => [...prev, "a"]);
                     break;
                 case "d":
-                    targetPosition.current.add(
-                        new Vector3(-forward.z, 0, forward.x).multiplyScalar(
-                            0.5
-                        )
-                    );
+                    setKeys((prev) => [...prev, "d"]);
                     break;
             }
         };
 
+        const handleKeyUp = (event: KeyboardEvent) => {
+            switch (event.key) {
+                case "w":
+                    setKeys((prev) => prev.filter((key) => key !== "w"));
+                    break;
+                case "s":
+                    setKeys((prev) => prev.filter((key) => key !== "s"));
+                    break;
+                case "a":
+                    setKeys((prev) => prev.filter((key) => key !== "a"));
+                    break;
+                case "d":
+                    setKeys((prev) => prev.filter((key) => key !== "d"));
+                    break;
+            }
+        };        
+
         window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("keyup", handleKeyUp);  
 
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keyup", handleKeyUp);
         };
     }, []);
 
@@ -80,8 +94,44 @@ const CameraControls = () => {
             targetPosition.current.copy(camera.position);
             // targetPosition.current = camera.position;
         }
+        // Based on keydown and keyup events, we can move the camera
         camera.getWorldDirection(forward);
-        // console.log(camera.getWorldDirection(forward));
+        const side = new Vector3(-forward.z, 0, forward.x);
+
+        if (keys.length > 0) {
+            keys.forEach((key) => {
+                switch (key) {
+                    case "w":
+                        var add = forward.clone().multiplyScalar(scalarMultiplier);
+                        if (add.length() > maxSpeed) {
+                            add.normalize().multiplyScalar(maxSpeed);
+                        }
+                        targetPosition.current.add(add);
+                        break;
+                    case "s":
+                        var add = forward.clone().multiplyScalar(-scalarMultiplier);
+                        if (add.length() > maxSpeed) {
+                            add.normalize().multiplyScalar(maxSpeed);
+                        }
+                        targetPosition.current.add(add);
+                        break;
+                    case "a":
+                        var add = side.clone().multiplyScalar(-scalarMultiplier);
+                        if (add.length() > maxSpeed) {
+                            add.normalize().multiplyScalar(maxSpeed);
+                        }
+                        targetPosition.current.add(add);
+                        break;
+                    case "d":
+                        var add = side.clone().multiplyScalar(scalarMultiplier);
+                        if (add.length() > maxSpeed) {
+                            add.normalize().multiplyScalar(maxSpeed);
+                        }
+                        targetPosition.current.add(add);
+                        break;
+                }
+            });
+        }
         orbitRef.current.target
             .copy(camera.position)
             .add(

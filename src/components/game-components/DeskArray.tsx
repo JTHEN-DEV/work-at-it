@@ -4,7 +4,7 @@ import Desk from "./Desk";
 type Props = {};
 
 const PROPERTIES = {
-    ROW_SIZE: 30,
+    ROW_SIZE: 5,
     ROW_GAP: 2,
     COL_GAP: 2,
     DESK_LENGTH: 1,

@@ -12,7 +12,7 @@ const PROPERTIES = {
 };
 
 const CubeArray = (props: Props) => {
-    const cubes = Array.apply(null, Array(100));
+    const cubes = Array.apply(null, Array(1));
     return (
         <>
             {cubes.map((cube, index) => {

@@ -16,10 +16,21 @@ const Cube = (props: Props) => {
     // });
 
     return (
-        <mesh ref={mesh} position={props.position} rotation={[0, 0, 0]}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={"orange"} />
-        </mesh>
+        <>
+            <mesh
+                castShadow
+                ref={mesh}
+                position={props.position}
+                rotation={[0, 0, 0]}>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color={"orange"} />
+            </mesh>
+            <pointLight
+                castShadow
+                position={[props.position[0] + 2, 3, props.position[2]]}
+                intensity={10}
+            />
+        </>
     );
 };
 

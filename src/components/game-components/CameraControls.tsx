@@ -1,19 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import * as THREE from "three";
 import {
     FlyControls,
     OrbitControls,
     TrackballControls,
 } from "@react-three/drei";
+import { Vector3 } from "three";
 
 const CameraControls = () => {
     const { camera } = useThree();
     const initial_height = 3;
     const targetPosition = useRef(
         camera
-            .getWorldPosition(new THREE.Vector3())
-            .add(new THREE.Vector3(0, initial_height, 0))
+            .getWorldPosition(new Vector3())
+            .add(new Vector3(0, initial_height, 0))
     );
     const orbitRef = useRef<any>();
     const speed = 0.05; // Smoothness factor
@@ -31,20 +31,16 @@ const CameraControls = () => {
                     break;
                 case "a":
                     targetPosition.current.add(
-                        new THREE.Vector3(
-                            forward.z,
-                            0,
-                            -forward.x
-                        ).multiplyScalar(-0.5)
+                        new Vector3(forward.z, 0, -forward.x).multiplyScalar(
+                            0.5
+                        )
                     );
                     break;
                 case "d":
                     targetPosition.current.add(
-                        new THREE.Vector3(
-                            -forward.z,
-                            0,
-                            forward.x
-                        ).multiplyScalar(-0.5)
+                        new Vector3(-forward.z, 0, forward.x).multiplyScalar(
+                            0.5
+                        )
                     );
                     break;
             }
@@ -67,13 +63,13 @@ const CameraControls = () => {
         };
     }, []);
 
-    const forward = useMemo(() => new THREE.Vector3(), []);
-    const position = useMemo(() => new THREE.Vector3(), []);
+    const forward = useMemo(() => new Vector3(), []);
+    const position = useMemo(() => new Vector3(), []);
 
     useFrame(() => {
         if (!isPanning) {
             camera.position.lerp(
-                new THREE.Vector3(
+                new Vector3(
                     targetPosition.current.x,
                     initial_height,
                     targetPosition.current.z
@@ -89,11 +85,9 @@ const CameraControls = () => {
         orbitRef.current.target
             .copy(camera.position)
             .add(
-                new THREE.Vector3(
-                    forward.x,
-                    forward.y,
-                    forward.z
-                ).multiplyScalar(0.001)
+                new Vector3(forward.x, forward.y, forward.z).multiplyScalar(
+                    0.001
+                )
             );
     });
 

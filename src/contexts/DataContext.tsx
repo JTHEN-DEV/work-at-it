@@ -110,8 +110,8 @@ const DataProvider: React.FC<DataProviderPropsType> = ({ children }) => {
         if (user) {
             // User is logged in so extract all user data
             getUserData();
-            getFriendshipData();
-            getPendingFriendshipData();
+            // getFriendshipData();
+            // getPendingFriendshipData();
         }
     }, [user]);
 

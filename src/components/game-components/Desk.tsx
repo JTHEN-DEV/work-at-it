@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Box3, Vector3 } from "three";
 
@@ -7,13 +7,13 @@ type Props = {
 };
 
 const Desk = (props: Props) => {
-    const { scene } = useGLTF("./desk.glb");
+    const { scene, nodes, materials } = useGLTF("./desk.glb");
     const {
         x: deskWidth,
         y: _,
         z: deskDepth,
     } = new Box3().expandByObject(scene).getSize(new Vector3());
-    console.log(deskWidth);
+    const copiedScene = useMemo(() => scene.clone(), [scene]);
     // scene.castShadow = true;
     useEffect(() => {
         scene.traverse(function (node) {
@@ -22,22 +22,12 @@ const Desk = (props: Props) => {
         scene.castShadow = true;
     }, []);
 
-    return (
-        <>
-            <primitive position={props.position} object={scene} />
-            {/* <pointLight position={[1, 1, 1]} /> */}
-            <pointLight
-                castShadow
-                position={[props.position[0] + 2, 3, props.position[2]]}
-                intensity={10}
-            />
-            {/* <directionalLight
-                position={[props.position[0] + 1, 2, props.position[2]]}
-                intensity={0.9}
-                target={scene}
-            /> */}
-        </>
-    );
+    return <primitive position={props.position} object={copiedScene} />;
+    // return (
+    //     <group>
+    //         <mesh geometry={nodes[0].}/>
+    //     </group>
+    // )
 };
 
 export default Desk;

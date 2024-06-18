@@ -21,7 +21,7 @@ const Floor = (props: Props) => {
             ref={floorRef}
             args={[1000, 1000]}
             rotation={[-Math.PI / 2, 0, 0]}
-            position={[0, -0.1, 0]}
+            position={[0, 0, 0]}
             receiveShadow>
             <meshPhongMaterial color={"#FFFFFF"} side={DoubleSide} />
         </Plane>

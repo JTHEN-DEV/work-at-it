@@ -6,6 +6,7 @@ import CameraControls from "./game-components/CameraControls";
 import { OrbitControls } from "@react-three/drei";
 import Desk from "./game-components/Desk";
 import Floor from "./game-components/Floor";
+import DeskArray from "./game-components/DeskArray";
 
 type Props = {};
 
@@ -20,10 +21,18 @@ const Game = (props: Props) => {
                     width: "100%",
                     height: "100%",
                 }}
-                shadows="percentage">
+                shadows>
                 <CameraControls />
-                <ambientLight intensity={0} />
-                <CubeArray />
+                <ambientLight intensity={0.3} />
+                <directionalLight
+                    position={[0, 100, 0]}
+                    intensity={1}
+                    castShadow
+                />
+                {/* <CubeArray /> */}
+                <DeskArray />
+                {/* <Desk position={[0, 0, 0]} />
+                <Desk position={[3, 0, 0]} /> */}
                 {/* <Desk position={[0, 0, 0]} /> */}
                 <Floor />
             </Canvas>

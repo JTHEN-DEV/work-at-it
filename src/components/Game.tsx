@@ -7,6 +7,7 @@ import { OrbitControls } from "@react-three/drei";
 import Desk from "./game-components/Desk";
 import Floor from "./game-components/Floor";
 import DeskArray from "./game-components/DeskArray";
+import Character from "./game-components/Character";
 
 type Props = {};
 
@@ -30,7 +31,8 @@ const Game = (props: Props) => {
                     castShadow
                 />
                 {/* <CubeArray /> */}
-                <DeskArray />
+                {/* <DeskArray /> */}
+                <Character initialPosition={[0, 0, 5]} />
                 {/* <Desk position={[0, 0, 0]} />
                 <Desk position={[3, 0, 0]} /> */}
                 {/* <Desk position={[0, 0, 0]} /> */}

@@ -1,10 +1,11 @@
 import React from "react";
 import Desk from "./Desk";
+import Character from "./Character";
 
 type Props = {};
 
 const PROPERTIES = {
-    ROW_SIZE: 30,
+    ROW_SIZE: 10,
     ROW_GAP: 2,
     COL_GAP: 2,
     DESK_LENGTH: 1,
@@ -12,7 +13,7 @@ const PROPERTIES = {
 };
 
 const DeskArray = (props: Props) => {
-    const desks = Array.apply(null, Array(1000));
+    const desks = Array.apply(null, Array(100));
     return (
         <>
             {desks.map((_, index) => {
@@ -23,7 +24,12 @@ const DeskArray = (props: Props) => {
                 const z =
                     Math.floor(index / PROPERTIES.ROW_SIZE) *
                     (PROPERTIES.DESK_LENGTH + PROPERTIES.ROW_GAP);
-                return <Desk position={[x, y, z]} />;
+                return (
+                    <>
+                        <Desk position={[x, y, z]} />
+                        <Character initialPosition={[x, y + 0.4, z + 0.75]} />
+                    </>
+                );
                 // return <Desk position={[index, , z]} />;
             })}
         </>

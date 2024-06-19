@@ -31,8 +31,8 @@ const Game = (props: Props) => {
                     castShadow
                 />
                 {/* <CubeArray /> */}
-                {/* <DeskArray /> */}
-                <Character initialPosition={[0, 0, 5]} />
+                <DeskArray />
+                {/* <Character initialPosition={[0, 0, 5]} /> */}
                 {/* <Desk position={[0, 0, 0]} />
                 <Desk position={[3, 0, 0]} /> */}
                 {/* <Desk position={[0, 0, 0]} /> */}
